@@ -34,7 +34,7 @@ def prepare_image(hr_image, device):
                                     resample=Image.BICUBIC)
     bicubic_image.save(os.path.join(
         args.dirpath_out,
-        os.path.basename(args.fpath_image).replace(".jpg", f"_bicubic_x{args.scaling_factor}.jpg")
+        os.path.basename(args.fpath_image).replace(".png", f"_bicubic_x{args.scaling_factor}.png")
     ))
 
     # Convert PIL image to numpy array
@@ -100,7 +100,7 @@ def infer(args):
     output = Image.fromarray(output)
     output.save(os.path.join(
         args.dirpath_out,
-        os.path.basename(args.fpath_image).replace(".jpg", f"_espcn_x{args.scaling_factor}.jpg")
+        os.path.basename(args.fpath_image).replace(".png", f"_espcn_x{args.scaling_factor}.png")
     ))
 
     # Plot Image Comparison
@@ -114,7 +114,7 @@ def infer(args):
     fig.suptitle('ESPCN Single Image Super Resolution')
     plt.show()
     fig.set_size_inches(20, 10, forward=True)
-    fig.savefig(os.path.join(args.dirpath_out, "result.jpg"), dpi=100)
+    fig.savefig(os.path.join(args.dirpath_out, "result.png"), dpi=100)
 
 
 def build_parser():
