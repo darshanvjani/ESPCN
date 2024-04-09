@@ -13,32 +13,26 @@ from dataloader import get_data_loader
 
 
 def train(model, train_loader, device, criterion, optimizer):
-    """ Function to train the model
-
-    :param model: instance of model
-    :param train_loader: training data loader
-    :param device: training device, 'cpu', 'cuda'
-    :param criterion: loss criterion, MSE
-    :param optimizer: model optimizer, Adam
-    :return: running training loss
-    """
-
     model.train()
     running_loss = AverageMeter()
 
-    for data in train_loader:
+    for i, data in enumerate(train_loader):
+        print(f"Batch {i} is being processed")
         inputs, labels = data
 
         inputs = inputs.to(device)
         labels = labels.to(device)
 
+        optimizer.zero_grad()
         prediction = model(inputs)
         loss = criterion(prediction, labels)
-        running_loss.update(loss.item(), len(inputs))
+        print(f"Batch {i} loss computed")
 
-        optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+        print(f"Batch {i} optimizer stepped")
+
+        running_loss.update(loss.item(), inputs.size(0))
 
     return running_loss
 
