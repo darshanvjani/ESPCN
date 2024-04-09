@@ -17,7 +17,7 @@ def train(model, train_loader, device, criterion, optimizer):
     running_loss = AverageMeter()
 
     for i, data in enumerate(train_loader):
-        print(f"Batch {i} is being processed")
+        # print(f"Batch {i} is being processed")
         inputs, labels = data
 
         inputs = inputs.to(device)
@@ -26,11 +26,11 @@ def train(model, train_loader, device, criterion, optimizer):
         optimizer.zero_grad()
         prediction = model(inputs)
         loss = criterion(prediction, labels)
-        print(f"Batch {i} loss computed")
+        # print(f"Batch {i} loss computed")
 
         loss.backward()
         optimizer.step()
-        print(f"Batch {i} optimizer stepped")
+        # print(f"Batch {i} optimizer stepped")
 
         running_loss.update(loss.item(), inputs.size(0))
 
