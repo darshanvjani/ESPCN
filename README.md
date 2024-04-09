@@ -15,7 +15,7 @@ $ pip install -r requirements.txt
 To run the model training, use the following command:
 
 ```
-$ python train.py -t ./dataset/train -v ./dataset/val -o ./assets/models/
+$ python train.py -t ./dataset/train -v ./dataset/val -o ./assets/models/ -pretrained ./assets/models/epoch_54.pth
 ```
 
 This will train the model and save the model's weights as `state_dict()` to the `assets/models/` folder.
