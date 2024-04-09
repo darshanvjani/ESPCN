@@ -26,7 +26,7 @@ class SRTrainDataset(IterableDataset):
         self.stride = stride
 
     def __iter__(self):
-        for fpath_image in glob(os.path.join(self.dirpath_images, "*.jpg")):
+        for fpath_image in glob(os.path.join(self.dirpath_images, "*.png")):
             # Load HR image: rH x rW x C, r: scaling factor
             hr_image = Image.open(fpath_image).convert('RGB')
             hr_width = (hr_image.width // self.scaling_factor) * self.scaling_factor
@@ -82,7 +82,7 @@ class SRValidDataset(IterableDataset):
         self.scaling_factor = scaling_factor
 
     def __iter__(self):
-        for fpath_image in glob(os.path.join(self.dirpath_images, "*.jpg")):
+        for fpath_image in glob(os.path.join(self.dirpath_images, "*.png")):
             # Load HR image: rH x rW x C, r: scaling factor
             hr_image = Image.open(fpath_image).convert('RGB')
             hr_width = (hr_image.width // self.scaling_factor) * self.scaling_factor
