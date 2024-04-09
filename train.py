@@ -116,6 +116,10 @@ def main(args):
     # Get the Model
     model = ESPCN(num_channels=1, scaling_factor=args.scaling_factor)
     model.to(device)
+    
+    if args.pretrained_model_path:
+        model.load_state_dict(torch.load(args.pretrained_model_path))
+        print(f"Loaded pre-trained model weights from {args.pretrained_model_path}")
 
     wandb.watch(model)
 
@@ -186,7 +190,8 @@ def build_parser():
                         help="Optional. Log model outputs after every n epochs.")
     parser.add_argument("-seed", "--seed", default=100, required=False, type=int,
                         help="Optional. Pytorch seed for reproducability.")
-
+    parser.add_argument("-pretrained", "--pretrained_model_path", required=False, type=str,
+                        help="Optional. Path to the pre-trained model weights (.pth file).")
     return parser
 
 
