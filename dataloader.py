@@ -160,8 +160,8 @@ def get_data_loader(dirpath_train, dirpath_val, scaling_factor, patch_size, stri
                              stride=stride)
     train_dataset = ShuffleDataset(dataset, 1024)
     train_loader = DataLoader(train_dataset,
-                              batch_size=16,
-                              num_workers=4,
+                              batch_size=32,
+                              num_workers=2,
                               pin_memory=True)
 
     valid_dataset = SRValidDataset(dirpath_images=dirpath_val,
