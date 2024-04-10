@@ -1,6 +1,7 @@
 import torch
 import torchvision.models as models
 import torch.nn.functional as F
+import torch.nn as nn
 
 class VGGPerceptualLoss(nn.Module):
     def __init__(self):
