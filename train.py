@@ -11,7 +11,7 @@ from utils import AverageMeter, calculate_psnr, VGGPerceptualLoss
 from model import ESPCN
 from dataloader import get_data_loader
 
-def train(model, train_loader, device, criterion_mse, criterion_vgg, optimizer):
+def train(model, train_loader, device, criterion_mse, optimizer):
     model.train()
     running_loss = AverageMeter()
 
@@ -21,10 +21,10 @@ def train(model, train_loader, device, criterion_mse, criterion_vgg, optimizer):
         labels = labels.to(device)
 
         prediction = model(inputs)
-        loss_mse = criterion_mse(prediction, labels)
-        loss_vgg = criterion_vgg(prediction, labels)
+        loss = criterion_mse(prediction, labels)
+        # loss_vgg = criterion_vgg(prediction, labels)
         # Combine the losses. Adjust the weighting if necessary.
-        loss = loss_mse + loss_vgg
+        # loss = loss_mse + loss_vgg
         running_loss.update(loss.item(), len(inputs))
 
         optimizer.zero_grad()
@@ -116,7 +116,7 @@ def main(args):
 
     # Define loss and optimizer
     criterion_mse = nn.MSELoss()
-    criterion_vgg = VGGPerceptualLoss().to(device)
+    # criterion_vgg = VGGPerceptualLoss().to(device)
     
     optimizer = torch.optim.Adam([
         {'params': model.feature_map_layer.parameters()},
@@ -133,7 +133,7 @@ def main(args):
         for param_group in optimizer.param_groups:
             param_group['lr'] = args.learning_rate * (0.1 ** (epoch // int(args.epochs * 0.8)))
 
-        training_loss = train(model, train_loader, device, criterion_mse, criterion_vgg, optimizer)
+        training_loss = train(model, train_loader, device, criterion_mse, optimizer)
         torch.save(model.state_dict(), os.path.join(args.dirpath_out, 'epoch_{}.pth'.format(epoch)))
 
         preds, running_psnr, validation_loss = evaluate(model, val_loader, device, criterion)
