@@ -112,7 +112,8 @@ def main(args):
     model.to(device)
     
     if args.pretrained_model_path:
-        model.load_state_dict(torch.load(args.pretrained_model_path))
+        # model.load_state_dict(torch.load(args.pretrained_model_path))
+        model.load_state_dict(torch.load(args.pretrained_model_path, map_location=device))
         print(f"Loaded pre-trained model weights from {args.pretrained_model_path}")
 
     wandb.watch(model)
