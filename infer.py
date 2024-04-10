@@ -88,7 +88,12 @@ def infer(args):
     lr_y, hr_y, ycbcr, bicubic_image = prepare_image(hr_image, device)
 
     with torch.no_grad():
+        start_time = time.time()
         preds = model(lr_y)
+        end_time = time.time()
+        inference_time = end_time - start_time
+        print('Inference Time: {:.4f} seconds'.format(inference_time))
+        # preds = model(lr_y)
 
     psnr_hr_sr = calculate_psnr(hr_y, preds)
     print('PSNR (HR/SR): {:.2f}'.format(psnr_hr_sr))
