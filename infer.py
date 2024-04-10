@@ -9,7 +9,7 @@ import torch.backends.cudnn as cudnn
 import numpy as np
 from model import ESPCN
 from utils import calculate_psnr
-
+import time
 
 def prepare_image(hr_image, device):
     """ Function to prepare hr/lr/bicubic images for inference and performance comparison
