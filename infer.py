@@ -78,7 +78,7 @@ def infer(args):
 
     # Load Model
     model = ESPCN(num_channels=1, scaling_factor=args.scaling_factor)
-    model.load_state_dict(torch.load(args.fpath_weights))
+    model.load_state_dict(torch.load(args.fpath_weights, map_location=device))
     model.to(device)
     model.eval()
 
