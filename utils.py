@@ -14,10 +14,21 @@ class VGGPerceptualLoss(nn.Module):
             p.requires_grad = False
 
     def forward(self, x, y):
+        # Replicate grayscale images to have 3 channels
+        if x.size(1) == 1:  # Check if the input has 1 channel
+            x = x.repeat(1, 3, 1, 1)  # Repeat the channel 3 times
+        if y.size(1) == 1:  # Check if the target has 1 channel
+            y = y.repeat(1, 3, 1, 1)  # Repeat the channel 3 times
+
+        # Resize images to match VGG input size
         x = F.interpolate(x, mode='bilinear', size=(224, 224), align_corners=False)
         y = F.interpolate(y, mode='bilinear', size=(224, 224), align_corners=False)
+
+        # Compute feature maps
         x_relu1_2, x_relu2_2, x_relu3_3 = self.slice1(x), self.slice2(x), self.slice3(x)
         y_relu1_2, y_relu2_2, y_relu3_3 = self.slice1(y), self.slice2(y), self.slice3(y)
+
+        # Compute loss
         loss = F.mse_loss(x_relu1_2, y_relu1_2) + F.mse_loss(x_relu2_2, y_relu2_2) + F.mse_loss(x_relu3_3, y_relu3_3)
         return loss
 
